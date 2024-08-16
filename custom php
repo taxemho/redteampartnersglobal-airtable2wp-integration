@@ -1,0 +1,281 @@
+function render_service_forms() {
+    ob_start(); ?>
+
+    <div class="service-forms-container">
+        <!-- Dropdown to select a service -->
+        <select id="service-dropdown" onchange="showForm(this.value)">
+            <option value="">Select a service</option>
+            <option value="service1">API Penetration Testing</option>
+            <option value="service2">Mobile Application Penetration Testing</option>
+            <option value="service3">Web Application Penetration Testing</option>
+            <option value="service4">Secure Code Review</option>
+            <option value="service5">Internal Infrastructure Penetration Testing</option>
+            <option value="service6">External Infrastructure Penetration Testing</option>
+            <option value="service7">Firewall Review</option>
+            <option value="service8">Cloud Review</option>
+            <option value="service9">Phishing Simulation</option>
+            <option value="service10">Red Team Assessment</option>
+            <option value="service11">Cyber Essentials Plus (UK Accreditation)</option>
+            <option value="service12">Application Vulnerability Assessment</option>
+            <option value="service13">Internal Infrastructure Vulnerability Assessment</option>
+            <option value="service14">External Infrastructure Vulnerability Assessment</option>
+            <option value="service15">Cyber Threat Intelligence</option>
+        </select>
+
+        <!-- Container for forms -->
+        <div id="service-forms">
+            <div id="service1-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="fbe962a" title="API Penetration Testing"]'); ?>
+            </div>
+            <div id="service2-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="ad8a667" title="Mobile Application Penetration Testing"]'); ?>
+            </div>
+            <div id="service3-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="bbe43e7" title="Web Application Penetration Testing"]'); ?>
+            </div>
+            <div id="service4-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="63d26d1" title="Secure Code Review"]'); ?>
+            </div>
+            <div id="service5-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="946e7e3" title="Internal Infrastructure Penetration Testing"]'); ?>
+            </div>
+            <div id="service6-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="1ffb142" title="External Infrastructure Penetration Testing"]'); ?>
+            </div>
+            <div id="service7-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="fab56e2" title="Firewall Review"]'); ?>
+            </div>
+            <div id="service8-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="1f0a649" title="Cloud Review"]'); ?>
+            </div>
+            <div id="service9-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="7e18a77" title="Phishing Simulation"]'); ?>
+            </div>
+            <div id="service10-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="b7aab5f" title="Red Team Assessment"]'); ?>
+            </div>
+            <div id="service11-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="990d237" title="Cyber Essentials Plus (UK Accreditation)"]'); ?>
+            </div>
+            <div id="service12-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="11a7370" title="Application Vulnerability Assessment"]'); ?>
+            </div>
+            <div id="service13-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="1c23c1b" title="Internal Infrastructure Vulnerability Assessment"]'); ?>
+            </div>
+            <div id="service14-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="8a476f2" title="External Infrastructure Vulnerability Assessment"]'); ?>
+            </div>
+            <div id="service15-form" class="service-form" style="display:none;">
+                <?php echo do_shortcode('[contact-form-7 id="673ab15" title="Cyber Threat Intelligence"]'); ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container for Loading Indicator and Estimated Days -->
+    <div id="estimated-days-container" style="text-align:center; margin-top: 20px;">
+        <div id="loading-indicator" style="display: none;">
+            <div class="spinner"></div>
+            <div id="loading-text">Your days are being estimated...</div>
+        </div>
+        <div id="estimated-days"></div>
+    </div>
+
+    <script>
+        let submittedName = '';
+        let submittedField = '';
+        let selectedService = '';
+  
+        function showForm(service) {
+            document.querySelectorAll('.service-form').forEach(form => form.style.display = 'none');
+            if (service) {
+                document.getElementById(service + '-form').style.display = 'block';
+            }
+            selectedService = service;
+        }
+
+        document.addEventListener('wpcf7mailsent', function(event) {
+            const nameField = event.detail.inputs.find(input => input.name === 'your-name');
+            const serviceField = getServiceField(event.detail.inputs); 
+          
+            if (nameField && serviceField) {
+                submittedName = nameField.value;
+                submittedField = serviceField.value;
+                startFetchingEstimatedDays(); // Start fetching after form submission
+            }
+        });
+		
+  	    function getServiceField(inputs) {
+        switch (selectedService) {
+            case 'service1':
+                return inputs.find(input => input.name === 'api-endpoints');
+            case 'service2':
+                return inputs.find(input => input.name === 'number-api-endpoints');
+            case 'service3':
+                return inputs.find(input => input.name === 'number-of-applications');
+            case 'service4':
+                return inputs.find(input => input.name === 'lines-code-no');
+            case 'service5':
+                return inputs.find(input => input.name === 'radio-214');
+            case 'service6':
+                return inputs.find(input => input.name === 'radio-2194');
+            case 'service7':
+                return inputs.find(input => input.name === 'number-of-firewalls');
+            case 'service8':
+                return inputs.find(input => input.name === 'number-of-tenants');
+            case 'service9':
+                return inputs.find(input => input.name === 'number-of-employees');
+            case 'service10':
+                return inputs.find(input => input.name === 'number-of-employees');
+            case 'service11':
+                return inputs.find(input => input.name === 'number-of-emp');
+            case 'service12':
+                return inputs.find(input => input.name === 'num-of-apps');
+            case 'service13':
+                return inputs.find(input => input.name === 'radio-510');
+            case 'service14':
+                return inputs.find(input => input.name === 'radio-478');
+            case 'service15':
+                return inputs.find(input => input.name === 'freq-service');
+            default:
+                return null;
+        }
+    }
+        function startFetchingEstimatedDays() {
+            document.getElementById('loading-indicator').style.display = 'block';
+            document.getElementById('estimated-days').innerText = '';
+
+            setTimeout(fetchEstimatedDays, 10000);
+        }
+  
+        function fetchEstimatedDays() {
+             if (!selectedService || !submittedName || !submittedField) {
+                document.getElementById('estimated-days').innerText = 'Please select a service and submit the form first.';
+                document.getElementById('loading-indicator').style.display = 'none'; // Hide loading indicator
+                return;
+            }
+
+            const { tableId, airtableFieldName } = getServiceTableInfo();
+
+            if (!tableId || !airtableFieldName) {
+                document.getElementById('estimated-days').innerText = 'Error: Invalid service selected.';
+                document.getElementById('loading-indicator').style.display = 'none';
+                return;
+            }
+
+            const apiUrl = `https://api.airtable.com/v0/base-id/${tableId}/?filterByFormula=AND({Name}="${submittedName}", {${airtableFieldName}}="${submittedField}")`;
+
+            fetch(apiUrl, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer your-api-key'    
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                  const record = data.records[0];
+
+                  if (record && typeof record.fields['Estimated Days'] === 'number') {
+                      const estimatedDays = Math.round(record.fields['Estimated Days']); // Round to nearest whole number
+                      document.getElementById('estimated-days').innerText = `Estimated Days: ${estimatedDays}`; // Use backticks for template literals
+                  } else {
+                      document.getElementById('estimated-days').innerText = 'Wait a few seconds, still estimating your days....';
+                      setTimeout(fetchEstimatedDays, 5000); // Retry after 5 seconds
+                  }
+
+                  document.getElementById('loading-indicator').style.display = 'none'; // Hide loading indicator
+              })
+
+
+            .catch(error => {
+                console.error('Error fetching data from Airtable:', error);
+                document.getElementById('estimated-days').innerText = 'An error occurred while fetching data.';
+                document.getElementById('loading-indicator').style.display = 'none'; // Hide loading indicator
+            });
+        }
+     function getServiceTableInfo() {
+        switch (selectedService) {
+            case 'service1':
+                return { tableId: 'tblxxxxDRxxxTCS', cf7FieldName: 'api-endpoints', airtableFieldName: 'Number of Api Endpoints' };
+            case 'service2':
+                return { tableId: 'tbxxxxx6VYo', cf7FieldName: 'number-api-endpoints', airtableFieldName: 'Number of Api Endpoints' };
+            case 'service3':
+                return { tableId: 'tblRK8xxxxxR', cf7FieldName: 'number-of-applications', airtableFieldName: 'Number of Applications' };
+            case 'service4':
+                return { tableId: 'tbxHxxxxxxxfVW', cf7FieldName: 'lines-code-no', airtableFieldName: 'Lines of Code' };
+            case 'service5':
+                return { tableId: 'tbl7xxxxx0', cf7FieldName: 'radio-214', airtableFieldName: 'Number of IPs' };
+            case 'service6':
+                return { tableId: 'txxxxxxpjrBQDT', cf7FieldName: 'radio-2194', airtableFieldName: 'Number of IPs' };
+            case 'service7':
+                return { tableId: 'xxxxxyd', cf7FieldName: 'number-of-firewalls', airtableFieldName: 'Number of Firewalls' };
+            case 'service8':
+                return { tableId: 'tbl3xxUtxxxxxxxxxxxx9', cf7FieldName: 'number-of-tenants', airtableFieldName: 'Number of Tenants' };
+            case 'service9':
+                return { tableId: 'tblza8Kp0mHjzVy2U', cf7FieldName: 'number-of-employees', airtableFieldName: 'Number of Employees' };
+            case 'service10':
+                return { tableId: 'txxxxxxxxxxxxxxb', cf7FieldName: 'number-of-employees', airtableFieldName: 'Number of Employees' };
+            case 'service11':
+                return { tableId: 'txxxxxxxxxxxxxxxxx1', cf7FieldName: 'number-of-emp', airtableFieldName: 'Number of Employees' };
+            case 'service12':
+                return { tableId: 'txxxxxxxxxxxxxx3', cf7FieldName: 'num-of-apps', airtableFieldName: 'Number of Applications' };
+            case 'service13':
+                return { tableId: 'txxxxxxxxxxxxxxxxxxxx17J', cf7FieldName: 'radio-510', airtableFieldName: 'Frequency of Service' };
+            case 'service14':
+                return { tableId: 'tbxxxxxxxxxxxxxxx4Oq', cf7FieldName: 'radio-478', airtableFieldName: 'Frequency of Service' };
+            case 'service15':
+                return { tableId: 'tblxxxxxxxxxxxxxWr11F', cf7FieldName: 'freq-service', airtableFieldName: 'Frequency of Service' };
+            default:
+                return { tableId: null, cf7FieldName: null, airtableFieldName: null };
+        }
+    }
+    </script>
+
+	
+  	<style>
+        .service-forms-container {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #service-forms {
+            margin-top: 20px;
+        }
+
+        .service-form {
+            margin-top: 20px;
+        }
+
+        #loading-indicator img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .spinner {
+            margin: 0 auto;
+            width: 50px;
+            height: 50px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #c71224;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading-text {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+  
+    <?php
+    return ob_get_clean();
+}
+
+
+add_shortcode('service_forms', 'render_service_forms');
